@@ -11,4 +11,9 @@ services:
           target: /backend
   postgres:
     image: "postgres:13.21-alpine3.20"
-    env_file: "backend/.env"
+    env_file: "./backend/.env"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
