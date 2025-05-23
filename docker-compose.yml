@@ -1,17 +1,19 @@
 services:
   backend:
     build: backend
+    env_file: "backend/.env"
     ports:
       - "8000:8000"
-
+    depends_on:
+        - db
     develop:
       watch:
         - action: sync
           path: backend
           target: /backend
-  postgres:
-    image: "postgres:13.21-alpine3.20"
-    env_file: "./backend/.env"
+  db:
+    image: "postgres:14.18-alpine3.20"
+    env_file: "backend/.env"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
