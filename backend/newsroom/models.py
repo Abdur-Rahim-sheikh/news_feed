@@ -23,7 +23,7 @@ class User(AbstractUser):
 
 class News(models.Model):
     source_url = models.URLField(unique=True)
-    country_code = models.CharField(max_length=2)
+    country_code = models.CharField(max_length=3)
     source_id = models.CharField(max_length=20)
     title = models.CharField(max_length=200)
     source_name = models.CharField(max_length=100, blank=True, null=True)
@@ -35,3 +35,6 @@ class News(models.Model):
 class Source(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     name = models.CharField(max_length=200, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    language_code = models.CharField(max_length=3, blank=True, null=True)
+    country_code = models.CharField(max_length=3, blank=True, null=True)

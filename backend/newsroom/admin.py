@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import User, News, Source
+
+from .models import News, Source, User
+
 # Register your models here.
 
 
@@ -40,4 +42,4 @@ class NewsAdmin(admin.ModelAdmin):
 
 @admin.register(Source)
 class Source(admin.ModelAdmin):
-    list_display = ["id", "name"]
+    list_display = ["id", "name", "url", "country_code", "language_code"]
