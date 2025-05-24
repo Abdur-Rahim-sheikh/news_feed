@@ -40,7 +40,7 @@ def sync_news():
             continue
         total = response["totalResults"]
         found = len(response["articles"])
-        logger.info(f"{total=}, {found=}")
+        logger.info(f"{country=}, {total=}, {found=}")
         if total != found:
             logger.warning(f"{total=}!={found=}")
 
