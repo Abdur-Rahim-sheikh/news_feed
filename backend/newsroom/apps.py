@@ -17,6 +17,8 @@ class NewsroomConfig(AppConfig):
             # run once just at startup
             app_start = datetime.now()
             scheduler.add_job(sync_sources, "date", run_date=app_start)
-            scheduler.add_job(sync_news, "interval", minutes=1, next_run_time=app_start)
+            scheduler.add_job(
+                sync_news, "interval", minutes=10, next_run_time=app_start
+            )
 
             scheduler.start()

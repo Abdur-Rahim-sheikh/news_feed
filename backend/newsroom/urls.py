@@ -1,3 +1,5 @@
 from django.urls import path
 
-urlpatterns = []
+from .views import NewsView
+
+urlpatterns = [path("/", NewsView.as_view(), name="user_content")]
