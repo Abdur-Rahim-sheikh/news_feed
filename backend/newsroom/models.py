@@ -26,10 +26,9 @@ class News(models.Model):
     country_code = models.CharField(max_length=3)
     source_id = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
-    source_name = models.CharField(max_length=200, blank=True, null=True)
     summary = models.CharField(max_length=5000)
     publication_date = models.DateTimeField(null=True, blank=True)
-    thumbnail = models.URLField(blank=True, null=True, default=None)
+    thumbnail_url = models.URLField(blank=True, null=True, default=None)
 
 
 class Source(models.Model):

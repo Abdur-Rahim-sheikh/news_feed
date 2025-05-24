@@ -14,7 +14,6 @@ class NewsroomConfig(AppConfig):
         from .jobs import sync_sources
 
         if not scheduler.running:
-            scheduler.add_job(
-                sync_sources, "interval", minutes=1, next_run_time=datetime.now()
-            )
+            # run once just at startup
+            scheduler.add_job(sync_sources, "date", run_date=datetime.now())
             scheduler.start()

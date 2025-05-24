@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 
 from environs import Env
 from newsapi import NewsApiClient
@@ -20,6 +19,8 @@ def sync_sources():
     # from original call 'runserver'
     db = sourcedb.objects.all().order_by("id")
     response = news_api.get_sources()
+    if response["status"] != "ok":
+        return
     sources = {
         src["id"]: sourcedb(
             id=src["id"],
