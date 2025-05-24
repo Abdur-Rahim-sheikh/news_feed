@@ -3,8 +3,6 @@ from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.apps import AppConfig
 
-from .jobs import sync_sources
-
 scheduler = BackgroundScheduler()
 
 
@@ -13,6 +11,8 @@ class NewsroomConfig(AppConfig):
     name = "newsroom"
 
     def ready(self):
+        from .jobs import sync_sources
+
         if not scheduler.running:
             scheduler.add_job(
                 sync_sources, "interval", minutes=1, next_run_time=datetime.now()
