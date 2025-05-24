@@ -23,6 +23,8 @@ class User(AbstractUser):
 
 class News(models.Model):
     source_url = models.URLField(unique=True)
+    country_code = models.CharField(max_length=2)
+    source_id = models.CharField(max_length=20)
     title = models.CharField(max_length=200)
     source_name = models.CharField(max_length=100, blank=True, null=True)
     summary = models.CharField(max_length=5000)
