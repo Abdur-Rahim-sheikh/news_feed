@@ -11,9 +11,12 @@ class NewsroomConfig(AppConfig):
     name = "newsroom"
 
     def ready(self):
-        from .jobs import sync_sources
+        from .jobs import sync_news, sync_sources
 
         if not scheduler.running:
             # run once just at startup
-            scheduler.add_job(sync_sources, "date", run_date=datetime.now())
+            app_start = datetime.now()
+            scheduler.add_job(sync_sources, "date", run_date=app_start)
+            scheduler.add_job(sync_news, "interval", minutes=1, next_run_time=app_start)
+
             scheduler.start()

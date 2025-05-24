@@ -33,7 +33,7 @@ class News(models.Model):
 
 class Source(models.Model):
     id = models.CharField(primary_key=True, max_length=100)
-    name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=200)
     url = models.URLField(blank=True, null=True)
     language_code = models.CharField(max_length=3, blank=True, null=True)
     country_code = models.CharField(max_length=3, blank=True, null=True)
