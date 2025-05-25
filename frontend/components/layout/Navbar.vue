@@ -4,7 +4,10 @@
             <header>
                 <div class="relative flex h-16 items-center justify-between">
                     <h2 class="text-white text-4xl">Newsroom</h2>
-                    <img src="public/icons/profile.svg" class="w-8 h-8" alt="profile icon">
+                    <div class="relative flex content-center justify-between space-x-2">
+                        <span class="text-white text-xl content-center">Hi, Placeholder</span>
+                        <img src="public/icons/profile.svg" class="w-10 h-10" alt="profile icon">
+                    </div>
                 </div>
             </header>
         </div>
