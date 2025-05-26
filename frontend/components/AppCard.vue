@@ -14,8 +14,8 @@ defineProps(["article"])
     <div class="col-md-6 flex-1 lg:flex-1/2">
       <div class="py-2">
 
-        <time class="ms-2 text-shadow-sm text-gray-700" :datetime="article.publish_date">{{
-          article.publication_date }}</time>
+        <time class="ms-2 text-shadow-sm text-gray-700" :datetime="article.published_at">{{
+          article.published_at }}</time>
 
 
         <h2 class="my-2 text-xl font-semibold"><a :href="article.source_url" target="_blank">{{ article.title }}</a>

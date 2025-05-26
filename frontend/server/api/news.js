@@ -1,15 +1,16 @@
+import getDate from "../utils/getDate";
 
 export default defineEventHandler(async (event) => {
     console.debug("Fetching news data...");
     try {
         let response = await backend(event, '/v1/news')
-        let articles = await response.json();
-        let data = articles.map(article => ({
+
+        let data = response.articles.map(article => ({
             source_url: article.news_url,
             title: article.title,
-            summary: article.description,
+            summary: article.summary,
             thumbnail_url: article.thumbnail_url,
-            publish_date: new Date(article.publish_date).toISOString()
+            published_at: getDate(article.published_at),
         }));
         console.log("Fetched news data:", data);
         return data
