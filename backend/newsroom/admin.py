@@ -32,10 +32,9 @@ class UserAdmin(admin.ModelAdmin):
 class NewsAdmin(admin.ModelAdmin):
     list_display = [
         "news_url",
-        "source",
+        "source_id",
         "country_code",
         "title",
-        "source_id",
         "summary",
         "publication_date",
         "thumbnail_url",
