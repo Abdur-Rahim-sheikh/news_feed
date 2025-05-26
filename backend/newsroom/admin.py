@@ -31,8 +31,8 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
     list_display = [
-        "source_url",
-        "source_id",
+        "news_url",
+        "source",
         "country_code",
         "title",
         "source_id",

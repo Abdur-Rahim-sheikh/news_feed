@@ -17,9 +17,9 @@ news_api = NewsApiClient(api_key=env.str("NEWS_API"))
 
 def sync_news():
     users = userdb.objects.all()
-    sources = sourcedb.objects.all()
+    source_instance = sourcedb.objects.all()
 
-    sources = {source.name: source.id for source in sources}
+    sources = {source.name: source.id for source in source_instance}
     countries = set()
     sources = set()
     for user in users:
@@ -56,7 +56,7 @@ def sync_news():
             ):
                 continue
             entry = dbnews(
-                source_url=article["url"],
+                news_url=article["url"],
                 country_code=country,
                 source_id=src_id,
                 title=article["title"],
@@ -69,14 +69,14 @@ def sync_news():
     newss = dbnews.objects.all()
     exclude = []
     for row in newss:
-        if row.source_url in articles:
-            articles.pop(row.source_url)
+        if row.news_url in articles:
+            articles.pop(row.news_url)
         else:
-            exclude.append(row.source_url)
+            exclude.append(row.news_url)
 
     include = articles.values()
 
     dbnews.objects.bulk_create(include)
-    dbnews.objects.filter(source_url__in=include).delete()
+    dbnews.objects.filter(news_url__in=include).delete()
 
     logger.info(f"new article {len(include)=}, {len(exclude)=}")
