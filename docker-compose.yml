@@ -6,6 +6,11 @@ services:
       - "3000:3000"
     depends_on:
         - backend
+    develop:
+      watch:
+        - action: sync
+          path: frontend
+          target: /frontend
         
   backend:
     build: backend
