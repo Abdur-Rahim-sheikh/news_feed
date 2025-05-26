@@ -5,11 +5,11 @@ from django.views import View
 
 class NewsView(View):
     def get(self, request: HttpRequest):
-        if not request.user.is_authenticated:
-            return JsonResponse({"error": "User not authenticated"}, status=401)
+        # if not request.user.is_authenticated:
+        #     return JsonResponse({"error": "User not authenticated"}, status=401)
 
-        username = request.user.username
-        email = request.user.email
+        # username = request.user.username
+        # email = request.user.email
         # first_name = request.user.first_name
-        html = f"<h2>hello {username}</h2> are your mail {email}"
+        html = "<h2>hello abir</h2> are your mail"
         return JsonResponse({"message": html}, status=200)
