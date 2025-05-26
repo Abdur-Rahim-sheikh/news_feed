@@ -36,4 +36,6 @@ class News(models.Model):
     title = models.CharField(max_length=200)
     summary = models.CharField(max_length=5000)
     publication_date = models.DateTimeField(null=True, blank=True)
-    thumbnail_url = models.URLField(blank=True, null=True, default=None)
+    thumbnail_url = models.URLField(
+        blank=True, max_length=1000, null=True, default=None
+    )
