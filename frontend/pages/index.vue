@@ -6,7 +6,7 @@ let { data: articles } = await useFetch("/api/news")
 <template>
     <ClientOnly>
         <div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-4 m-3">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 px-20 m-32">
                 <AppCard v-for="article in articles" :key="article.title" :article="article" />
             </div>
         </div>
