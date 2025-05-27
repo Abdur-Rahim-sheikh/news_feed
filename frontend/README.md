@@ -23,3 +23,11 @@
 - Pagination
 - Search by keyword or title
 - filtering by source and publication date
+
+<details>
+<summary>Credits</summary>
+<ul>
+<li> https://materializecss.com/ </li>
+<li> https://adbeus.com/ </li>
+</ul>
+</details>
