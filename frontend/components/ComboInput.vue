@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+
 import {
     Combobox,
     ComboboxInput,
@@ -9,28 +10,31 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 
-const people = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
+
+defineProps(["idNameMapping"])
+const emit = defineEmits(["selectedId"])
+const idNameMapping = [
+    { id: 1, name: "abir" },
+    { id: 2, name: "nadia" },
+    { id: 3, name: "kabira" }
 ]
 
-let selected = ref(people[0])
+let selected = ref('')
 let query = ref('')
 
-let filteredPeople = computed(() =>
+let filteredSource = computed(() =>
     query.value === ''
-        ? people
-        : people.filter((person) =>
-            person.name
+        ? idNameMapping
+        : idNameMapping.filter((entry) =>
+            entry.name
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.value.toLowerCase().replace(/\s+/g, ''))
         )
 )
+watch(selected, (newSelected) => {
+    emit("selectedId", newSelected.id)
+})
 </script>
 <template>
     <Combobox v-model="selected">
@@ -40,8 +44,7 @@ let filteredPeople = computed(() =>
                 <img src="/icons/search.svg" alt="search icon" class="absolute left-2 pointer-events-none h-4 w-4" />
                 <ComboboxInput
                     class="w-full ps-8 py-1 font-semibold placeholder-gray-300 text-black border-none rounded-2xl focus:outline-none"
-                    :displayValue="(person) => person.name" placeholder="Search"
-                    @change="query = $event.target.value" />
+                    :displayValue="(entry) => entry.name" placeholder="Search" @change="query = $event.target.value" />
                 <ComboboxButton class="absolute right-2">
                     <img src="/icons/unfold_more.svg" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                 </ComboboxButton>
@@ -51,19 +54,19 @@ let filteredPeople = computed(() =>
                 @after-leave="query = ''">
                 <ComboboxOptions
                     class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 sm:text-sm">
-                    <div v-if="filteredPeople.length === 0 && query !== ''"
+                    <div v-if="filteredSource.length === 0 && query !== ''"
                         class="relative cursor-default select-none px-4 py-2 text-gray-700">
                         Nothing found.
                     </div>
 
-                    <ComboboxOption v-for="person in filteredPeople" as="template" :key="person.id" :value="person"
+                    <ComboboxOption v-for="entry in filteredSource" as="template" :key="entry.id" :value="entry"
                         v-slot="{ selected, active }">
                         <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
                             'bg-teal-600 text-white': active,
                             'text-gray-900': !active,
                         }">
                             <span class="block truncate" :class="{ 'font-medium': selected, 'font-normal': !selected }">
-                                {{ person.name }}
+                                {{ entry.name }}
                             </span>
                             <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"
                                 :class="{ 'text-white': active, 'text-teal-600': !active }">
