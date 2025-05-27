@@ -14,6 +14,7 @@ class NewsView(View):
         articles = [
             {
                 "news_url": "https://apnews.com/article/south-carolina-shooting-little-river-7525cdaf1ffa5ac7b7e15c96fe74ecc0",
+                "source_name": "BBC News",
                 "title": "At least 11 hurt in South Carolina beach town shooting - AP News",
                 "summary": "Authorities say at least 11 people were taken to hospitals after a shooting in a South Carolina beach town. Horry County Police did not give the conditions of anyone hurt or detail how they were injured in the incident, which happened about 9:30 p.m. Sunday i…",
                 "published_at": "2025-05-26T11:51:00Z",

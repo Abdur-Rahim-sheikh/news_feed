@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
 
         let data = response.articles.map(article => ({
             source_url: article.news_url,
+            source_name: article.source_name,
             title: article.title,
             summary: article.summary,
             thumbnail_url: article.thumbnail_url,
