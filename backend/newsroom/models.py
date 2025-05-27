@@ -16,8 +16,8 @@ def default_keywords():
 
 
 class User(AbstractUser):
-    countries = models.JSONField(default=default_countries)
-    sources = models.JSONField(default=default_sources)
+    country_codes = models.JSONField(default=default_countries)
+    source_ids = models.JSONField(default=default_sources)
     keywords = models.JSONField(default=default_keywords)
 
 
@@ -33,6 +33,7 @@ class News(models.Model):
     news_url = models.URLField(unique=True)
     country_code = models.CharField(max_length=3)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User)
     title = models.CharField(max_length=200)
     summary = models.CharField(max_length=5000)
     publication_date = models.DateTimeField(null=True, blank=True)

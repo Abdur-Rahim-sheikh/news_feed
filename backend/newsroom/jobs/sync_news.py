@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 
 from environs import Env
 from newsapi import NewsApiClient
@@ -19,12 +20,15 @@ def sync_news():
     users = userdb.objects.all()
     source_instance = sourcedb.objects.all()
 
-    sources = {source.name: source.id for source in source_instance}
-    countries = set()
-    sources = set()
+    sources_dict = {source.name: source.id for source in source_instance}
+    sources_keys = set(sources_dict.values())
+    countries = defaultdict(list)
+    sources = defaultdict(list)
     for user in users:
-        countries.update(user.countries)
-        sources.update(user.sources)
+        for country in user.country_codes:
+            countries[country].append(user)
+        for source_id in user.source_ids:
+            sources[source_id].append(user)
 
     articles = {}
     for country in countries:
@@ -48,12 +52,22 @@ def sync_news():
             src_id = None
             if article["source"]["id"]:
                 src_id = article["source"]["id"]
-            elif article["source"]["name"] and article["source"]["name"] in sources:
-                src_id = sources[article["source"]["name"]]
+            elif (
+                article["source"]["name"] and article["source"]["name"] in sources_dict
+            ):
+                src_id = sources_dict[article["source"]["name"]]
 
             if not all(
-                (src_id, article["url"], article["title"], article["description"])
+                (
+                    src_id in sources_keys,
+                    article["url"],
+                    article["title"],
+                    article["description"],
+                )
             ):
+                logger.info(
+                    f"Failed! {article["url"]=}, {src_id=}, {article['source']}"
+                )
                 continue
             entry = dbnews(
                 news_url=article["url"],
@@ -66,17 +80,23 @@ def sync_news():
             )
             articles[article["url"]] = entry
 
-    newss = dbnews.objects.all()
+    existing_urls = set(row.news_url for row in dbnews.objects.all())
     exclude = []
-    for row in newss:
-        if row.news_url in articles:
-            articles.pop(row.news_url)
+    for url in existing_urls:
+        if url in articles:
+            articles.pop(url)
         else:
-            exclude.append(row.news_url)
+            exclude.append(url)
 
     include = articles.values()
 
+    dbnews.objects.filter(news_url__in=exclude).delete()
     dbnews.objects.bulk_create(include)
-    dbnews.objects.filter(news_url__in=include).delete()
+
+    newss = dbnews.objects.all()
+    for article in newss:
+        country_users = countries[article.country_code]
+        source_users = sources[article.source.id]
+        article.users.set(country_users + source_users)
 
     logger.info(f"new article {len(include)=}, {len(exclude)=}")
