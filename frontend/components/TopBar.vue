@@ -1,11 +1,12 @@
 <script setup>
+const emit = defineEmits(["queries"])
 const sources = ["BBC news", "Abn News"]
 const PAST_INFINITY = '0001-01-01'
 const FUTURE_INFINITY = '275760-09-13'
 let sourceId = ref(null)
 let startDate = ref(null)
 let endDate = ref(null)
-let keywords = ref(null)
+let keyword = ref(null)
 
 let getSelectedSourceId = (newSourceId) => {
     console.log("selected source", newSourceId)
@@ -13,9 +14,22 @@ let getSelectedSourceId = (newSourceId) => {
 }
 
 let submitQuery = () => {
-    let fromDate = startDate.value ? startDate.value : PAST_INFINITY
-    let toDate = endDate.value ? endDate.value : FUTURE_INFINITY
-    console.log("TopBar", sourceId.value, fromDate, toDate, keywords.value)
+    let fromDate = startDate.value || PAST_INFINITY
+    let toDate = endDate.value || FUTURE_INFINITY
+    let srcId = sourceId.value || ""
+    let kwrg = keyword.value || ""
+    console.log("TopBar", {
+        fromDate,
+        toDate,
+        sourceId: srcId,
+        keyword: kwrg,
+    })
+    emit("queries", {
+        fromDate,
+        toDate,
+        sourceId: srcId,
+        keyword: kwrg,
+    })
 }
 </script>
 
@@ -31,7 +45,7 @@ let submitQuery = () => {
             </div>
             <div class="relative flex items-center ">
                 <img src="/icons/search.svg" alt="search icon" class="absolute ms-2 pointer-events-none">
-                <input type="search" v-model="keywords" name="search_term" id="search-term" placeholder="Search"
+                <input type="search" v-model="keyword" name="search_term" id="search-term" placeholder="Search"
                     class="ps-10 py-1 font-semibold placeholder-gray-300 text-black rounded-2xl border-none ring-2 ring-gray-300 focus:ring-gray-500">
             </div>
 
