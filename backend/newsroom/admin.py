@@ -20,8 +20,8 @@ class UserAdmin(admin.ModelAdmin):
     fields = [
         "username",
         "email",
-        "countries",
-        "sources",
+        "country_codes",
+        "source_ids",
         "keywords",
         "is_active",
         "is_superuser",
