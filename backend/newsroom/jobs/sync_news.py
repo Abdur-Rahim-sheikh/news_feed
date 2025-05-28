@@ -24,6 +24,9 @@ def sync_news():
     sources_keys = set(sources_dict.values())
     countries = defaultdict(list)
     sources = defaultdict(list)
+    # keywords = defaultdict(list)
+    # having a keyword matcher makes the scheduler toooo slow and unconventional
+    # rather we can filter it out during query
     for user in users:
         for country in user.country_codes:
             countries[country].append(user)

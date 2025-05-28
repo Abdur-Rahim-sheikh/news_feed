@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
             thumbnail_url: article.thumbnail_url,
             published_at: getDate(article.published_at),
         }));
-        console.log("Fetched news data:", data);
+        console.log("Fetched news data:", data.length);
         return data
     } catch (error) {
         console.error("Error fetching news:", error);

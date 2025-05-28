@@ -1,8 +1,7 @@
 <script setup>
 const emit = defineEmits(["queries"])
 const sources = ["BBC news", "Abn News"]
-const PAST_INFINITY = '0001-01-01'
-const FUTURE_INFINITY = '275760-09-13'
+
 let sourceId = ref(null)
 let startDate = ref(null)
 let endDate = ref(null)
@@ -14,8 +13,8 @@ let getSelectedSourceId = (newSourceId) => {
 }
 
 let submitQuery = () => {
-    let fromDate = startDate.value || PAST_INFINITY
-    let toDate = endDate.value || FUTURE_INFINITY
+    let fromDate = startDate.value || ""
+    let toDate = endDate.value || ""
     let srcId = sourceId.value || ""
     let kwrg = keyword.value || ""
     console.log("TopBar", {
