@@ -19,6 +19,7 @@ class User(AbstractUser):
     country_codes = models.JSONField(default=default_countries)
     source_ids = models.JSONField(default=default_sources)
     keywords = models.JSONField(default=default_keywords)
+    email = models.EmailField(unique=True, null=False)
 
 
 class Source(models.Model):

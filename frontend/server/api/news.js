@@ -1,13 +1,15 @@
+import getBackend from "../utils/getBackend";
 import getDate from "../utils/getDate";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     console.debug("query", query)
+    const backend = getBackend(event)
 
     let url = `v1/news?fromDate=${query.fromDate}&toDate=${query.toDate}&keyword=${query.keyword}&sourceId=${query.sourceId}`
 
     try {
-        let response = await backend(event, url, "GET")
+        let response = await backend.request(url, { method: 'GET' })
 
         let data = response.articles.map(article => ({
             source_url: article.news_url,

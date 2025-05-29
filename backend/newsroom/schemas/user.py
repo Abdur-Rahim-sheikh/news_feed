@@ -7,8 +7,8 @@ class User:
     email: str
     first_name: str
     last_name: str
-    countries: list
-    sources: list
+    country_codes: list
+    source_ids: list
     keywords: list
 
     @property
