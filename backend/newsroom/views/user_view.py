@@ -39,6 +39,7 @@ class UserView(View):
             }
         )
         if not form.is_valid():
+            logger.error(f"Form data is not valid: {form.errors}")
             return JsonResponse(data={"error": "Form data is not valid"}, status=400)
         # validate form
         logger.info(f"{first_name=},{last_name=},{username},{email=}, {password=}")
