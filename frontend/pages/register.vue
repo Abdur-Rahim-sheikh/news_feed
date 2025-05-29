@@ -3,16 +3,17 @@ definePageMeta({
     title: "Register",
     layout: "auth",
 })
-const route = useRoute()
+const router = useRouter()
 let first_name = ref("")
 let last_name = ref("")
 let email = ref("")
 let username = ref("")
 let password = ref("")
 let confirm_passowrd = ref("")
-
+let form_ok = ref(true)
 const submit_data = async () => {
-    let response = await $fetch("/api/add_user", {
+    form_ok.value = true
+    let response = await $fetch("/api/register", {
         method: "POST",
         body: {
             first_name: first_name.value,
@@ -22,13 +23,13 @@ const submit_data = async () => {
             password: password.value,
         }
     })
-    if (response.status === 200) {
-        // Handle successful registration
+    console.log("add_user response: ", response)
+    if (response.status === 'success') {
+
         console.log("User registered successfully")
-        route.push('/login')
-        // Optionally redirect or show a success message
+        router.replace('/login')
     } else {
-        // Handle error
+        form_ok.value = false
         console.error("Registration failed", response)
     }
     console.log(response)
@@ -37,41 +38,42 @@ const submit_data = async () => {
 
 <template>
     <div class="w-full flex justify-center pt-30">
-        <form v-on:submit.prevent="submit_data" class="bg-white shadow-md rounded px-8 pb-8 mb-4">
+        <form v-on:submit.prevent="submit_data" class="bg-white shadow-md rounded px-8 pb-8 mb-4"
+            :class="{ 'border border-red-500': !form_ok }">
 
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">First Name</label>
-                <input type="text" id="first-name" v-model="first_name"
+                <input type="text" id="first-name" v-model.strip="first_name" placeholder="First Name"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="last_name">Last Name</label>
-                <input v-model="last_name"
+                <input v-model.strip="last_name" placeholder="Last Name"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text" id="last-name">
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
-                <input v-model="email"
+                <input v-model.strip="email" placeholder="Email"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="email" id="email">
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
-                <input v-model="username"
+                <input v-model.strip="username" placeholder="Username"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text" id="username">
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
-                <input v-model="password"
+                <input v-model.strip="password" placeholder="Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="password" id="password">
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">Confirm
                     Passowrd</label>
-                <input v-model="confirm_passowrd"
+                <input v-model.strip="confirm_passowrd" placeholder="Confirm Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="password" id="confirm-password">
             </div>

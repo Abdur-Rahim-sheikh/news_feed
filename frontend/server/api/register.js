@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
     let data = await readBody(event)
     console.log("add-user", data)
     try {
-        const response = await backend.request('/v1/user', {
+        await backend.request('/v1/user', {
             method: "POST",
             body: {
                 first_name: data.first_name,
@@ -13,9 +13,18 @@ export default defineEventHandler(async (event) => {
                 password: data.password
             }
         })
+        return {
+            status: "success",
+            statusMessage: "User added successfully",
+        }
     } catch (error) {
         console.log(error)
-        return "not registered"
+        return {
+            status: error.status,
+            message: error.message
+        }
     }
-    return "registered"
+
+
+
 })
