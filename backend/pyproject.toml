@@ -12,6 +12,7 @@ dependencies = [
     "newsapi-python>=0.2.7",
     "psycopg2-binary>=2.9.10",
     "pycountry>=24.6.1",
+    "pyjwt>=2.10.1",
 ]
 
 [dependency-groups]
