@@ -13,6 +13,7 @@ class User:
     source_ids: list
     keywords: list
     password: str = None
+    id: int = None
 
     @property
     def full_name(self):

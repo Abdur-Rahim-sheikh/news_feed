@@ -2,15 +2,21 @@ import logging
 from datetime import datetime
 
 from django.http import HttpRequest, JsonResponse
+from django.utils.decorators import method_decorator
 from django.views import View
+from environs import Env
 
 from ..data import NewsRepository
 from ..schemas import News
+from ..utils import jwt_required
 
+env = Env()
+env.read_env()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__file__)
 
 
+@method_decorator(jwt_required, name="dispatch")
 class NewsView(View):
     def __init__(self):
         self.repository = NewsRepository()
@@ -21,6 +27,7 @@ class NewsView(View):
         return datetime(year=year, month=month, day=day)
 
     def get(self, request: HttpRequest):
+        logger.info(f"{request=}")
         # if not request.user.is_authenticated:
         #     return JsonResponse({"error": "User not authenticated"}, status=401)
 
@@ -33,14 +40,14 @@ class NewsView(View):
         keyword = request.GET.get("keyword", None)
         source_id = request.GET.get("sourceId", None)
         logger.info(f"{from_date=}, {to_date}, {keyword=}, {source_id=}")
-        user_id = 1
+
         if from_date:
             from_date = self._get_date(from_date)
         if to_date:
             to_date = self._get_date(to_date)
 
         articles = self.repository.get_filtered_news(
-            user_id=user_id,
+            user_id=request.user_id,
             from_date=from_date,
             to_date=to_date,
             keyword=keyword,
