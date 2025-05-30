@@ -41,8 +41,8 @@ let submitQuery = () => {
                 focus:ring-gray-500">
 
             </div>
-            <div class="relative flex items-center ">
-                <img src="/icons/search.svg" alt="search icon" class="absolute ms-2 pointer-events-none">
+            <div class="relative flex items-center">
+                <img src="/icons/search.svg" alt="search icon" class="absolute ms-2 pointer-events-none w-4 h-4">
                 <input type="search" v-model="keyword" name="search_term" id="search-term" placeholder="Search"
                     class="ps-10 py-1 font-semibold placeholder-gray-300 text-black rounded-2xl border-none ring-2 ring-gray-300 focus:ring-gray-500">
             </div>

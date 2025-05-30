@@ -3,21 +3,51 @@ import ComboInput from './ComboInput.vue'
 
 const props = defineProps(["user"])
 const emit = defineEmits(["close"])
-const sources = useState("sources")
-
-const country_codes = props.user.country_codes
-let source_ids = ref(sources.value.filter(entry => props.user.source_ids.includes(entry.id)))
-const keywords = props.user.keywords
+const available_sources = useState("sources")
+const available_countries = useState("countries")
+const _filter_ids = (available, selected) => {
+  return available.value.filter(entry => selected.includes(entry.id))
+}
+let country_codes = ref(_filter_ids(available_countries, props.user.country_codes))
+let source_ids = ref(_filter_ids(available_sources, props.user.source_ids))
+let keywords = ref(props.user.keywords)
+let selected_keyword = ref('')
+console.log("Keywords", keywords.value)
 const close_modal = () => {
   emit("close")
 }
 
 const add_source = (id) => {
-  let entry = sources.value.filter(entry => entry.id == id)[0]
+  let entry = available_sources.value.filter(entry => entry.id == id)[0]
   source_ids.value.push(entry)
 }
 const remove_source = (id) => {
   source_ids.value = source_ids.value.filter(entry => entry.id != id)
+}
+const add_country = (id) => {
+  let entry = available_countries.value.filter(entry => entry.id == id)[0]
+  country_codes.value.push(entry)
+}
+const remove_country = (id) => {
+  country_codes.value = country_codes.value.filter(entry => entry.id != id)
+}
+const add_keyword = () => {
+  keywords.value.push(selected_keyword.value)
+  selected_keyword.value = ''
+}
+const remove_keyword = (remove_id) => {
+  keywords.value = keywords.value.filter(id => id != remove_id)
+}
+
+const update_user_choice = () => {
+  let response = $fetch('/api/user_update', {
+    method: 'POST',
+    body: {
+      country_codes,
+      source_ids,
+      keywords,
+    }
+  })
 }
 </script>
 
@@ -41,12 +71,16 @@ const remove_source = (id) => {
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose countries</label>
-                <ComboInput />
+                <ComboInput :idNameMapping="available_countries" @selected-id="add_country" />
+                <div class="mt-2 space-x-1 space-y-0.5">
+                  <Pill v-for="country in country_codes" :key="country.id" :id="country.id" :name="country.name"
+                    @remove="remove_country" />
+                </div>
 
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose Sources</label>
-                <ComboInput :idNameMapping="sources" @selected-id="add_source" />
+                <ComboInput :idNameMapping="available_sources" @selected-id="add_source" />
                 <div class="mt-2 space-x-1 space-y-0.5">
                   <Pill v-for="source in source_ids" :key="source.id" :id="source.id" :name="source.name"
                     @remove="remove_source" />
@@ -54,14 +88,24 @@ const remove_source = (id) => {
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose Keywords</label>
-                <ComboInput />
+                <div class="relative flex items-center">
+                  <img src="/icons/search.svg" alt="search icon" class="absolute ms-2 pointer-events-none w-4 h-4">
+                  <input v-on:keyup.enter="add_keyword" v-model="selected_keyword" placeholder="Search" class="ps-7 w-full border-[2px] border-gray-300 focus:outline-none focus:ring-0
+                              focus:border-gray-500 rounded-full p-1 placeholder-gray-300 placeholder:font-bold">
+                </div>
+
+                <div class="mt-2 space-x-1 space-y-0.5 ">
+
+                  <Pill v-for="keyword in keywords" :key="keyword" :id="keyword" :name="keyword"
+                    @remove="remove_keyword" />
+                </div>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 items-end justify-end sm:flex sm:flex-row sm:px-6">
               <button type="button" v-on:click="close_modal"
                 class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
 
-              <button type="button"
+              <button type="button" v-on:click="update_user_choice"
                 class="inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-700 sm:ml-3 sm:w-auto">Update</button>
             </div>
           </div>

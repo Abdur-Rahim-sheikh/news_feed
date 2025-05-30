@@ -2,9 +2,11 @@
 const user = useCookie("user", { watch: true })
 
 const sources = useState("sources", () => null)
-
-if (!sources.value) {
-    sources.value = await $fetch("/api/sources")
+const countries = useState("countries", () => null)
+if (!sources.value || !countries.value) {
+    let data = await $fetch("/api/sources")
+    sources.value = data.sources
+    countries.value = data.countries
 }
 
 const modal_active = ref(false)

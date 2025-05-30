@@ -50,4 +50,4 @@ class NewsAdmin(admin.ModelAdmin):
 @admin.register(Source)
 class Source(admin.ModelAdmin):
     list_display = ["id", "name", "url", "country_code", "language_code"]
-    search_fields = ["id", "name"]
+    search_fields = ["id", "name", "country_code"]
