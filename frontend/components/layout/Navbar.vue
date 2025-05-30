@@ -1,10 +1,10 @@
 <script setup>
 const user = useCookie("user", { watch: true })
 
-const source_dict = useState("source_dict", () => null)
+const sources = useState("sources", () => null)
 
-if (!source_dict.value) {
-    source_dict.value = await $fetch("/api/sources")
+if (!sources.value) {
+    sources.value = await $fetch("/api/sources")
 }
 
 const modal_active = ref(false)

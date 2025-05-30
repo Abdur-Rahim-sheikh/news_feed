@@ -1,7 +1,6 @@
 <script setup>
 const emit = defineEmits(["queries"])
-const sources = ["BBC news", "Abn News"]
-
+const available_sources = useState("sources")
 let sourceId = ref(null)
 let startDate = ref(null)
 let endDate = ref(null)
@@ -49,7 +48,7 @@ let submitQuery = () => {
             </div>
 
             <div>
-                <ComboInput @selectedId="getSelectedSourceId" />
+                <ComboInput @selectedId="getSelectedSourceId" :idNameMapping="available_sources" />
             </div>
             <div><button type="submit" v-on:click="submitQuery"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 mx-1 rounded-full cursor-grabbing">Submit</button>

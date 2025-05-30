@@ -11,13 +11,10 @@ import {
 } from '@headlessui/vue'
 
 
-defineProps(["idNameMapping"])
+const props = defineProps(["idNameMapping"])
 const emit = defineEmits(["selectedId"])
-const idNameMapping = [
-    { id: 1, name: "abir" },
-    { id: 2, name: "nadia" },
-    { id: 3, name: "kabira" }
-]
+// idNameMapping coming from useState so no `value` param here
+const idNameMapping = props.idNameMapping
 
 let selected = ref('')
 let query = ref('')

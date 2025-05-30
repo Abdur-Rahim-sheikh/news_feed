@@ -32,6 +32,4 @@ defineProps(["article"])
       </div>
     </div>
   </div>
-
-
 </template>

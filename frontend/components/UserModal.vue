@@ -3,10 +3,21 @@ import ComboInput from './ComboInput.vue'
 
 const props = defineProps(["user"])
 const emit = defineEmits(["close"])
+const sources = useState("sources")
 
-
+const country_codes = props.user.country_codes
+let source_ids = ref(sources.value.filter(entry => props.user.source_ids.includes(entry.id)))
+const keywords = props.user.keywords
 const close_modal = () => {
   emit("close")
+}
+
+const add_source = (id) => {
+  let entry = sources.value.filter(entry => entry.id == id)[0]
+  source_ids.value.push(entry)
+}
+const remove_source = (id) => {
+  source_ids.value = source_ids.value.filter(entry => entry.id != id)
 }
 </script>
 
@@ -31,10 +42,15 @@ const close_modal = () => {
               <div class="mt-2">
                 <label class="font-semibold">Choose countries</label>
                 <ComboInput />
+
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose Sources</label>
-                <ComboInput />
+                <ComboInput :idNameMapping="sources" @selected-id="add_source" />
+                <div class="mt-2 space-x-1 space-y-0.5">
+                  <Pill v-for="source in source_ids" :key="source.id" :id="source.id" :name="source.name"
+                    @remove="remove_source" />
+                </div>
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose Keywords</label>
@@ -46,7 +62,7 @@ const close_modal = () => {
                 class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
 
               <button type="button"
-                class="inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-700 sm:ml-3 sm:w-auto">Submit</button>
+                class="inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-700 sm:ml-3 sm:w-auto">Update</button>
             </div>
           </div>
         </div>
