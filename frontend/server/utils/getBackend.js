@@ -14,7 +14,7 @@ class Backend {
 };
 
 export default function getBackend(event) {
-    const authToken = getCookie(event, "authorizationToken")
+    const authToken = getCookie(event, "auth_token")
     const csrfToken = getCookie(event, "csrfToken")
     const option = {
         headers: {

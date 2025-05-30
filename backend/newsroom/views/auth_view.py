@@ -41,20 +41,25 @@ class AuthView(View):
             return JsonResponse(
                 data={"error": "User / password does not match"}, status=404
             )
+        expiresAt = datetime.now(tz=timezone.utc) + timedelta(minutes=1)
+        expires_at_ms = int(expiresAt.timestamp() * 1000)
         payload = {
             "id": user.id,
-            "exp": datetime.now(tz=timezone.utc) + timedelta(minutes=100),
+            "exp": expiresAt,
             "iat": datetime.now(),
         }
         token = jwt.encode(
             payload=payload, key=self._secret_key, algorithm=env.str("JWT_ALGORITHM")
         )
 
-        return JsonResponse(data=self.format_user(user, token), status=200)
+        return JsonResponse(
+            data=self.format_user(user, token, expires_at_ms), status=200
+        )
 
-    def format_user(self, user: User, token: str):
+    def format_user(self, user: User, token: str, expires_at_ms):
         return {
             "auth_token": token,
+            "token_expires_at": expires_at_ms,
             "user": {
                 "username": user.username,
                 "email": user.email,

@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
         data = response._data
         console.log("response found", data.auth_token, data.user)
         setCookie(event, "auth_token", data.auth_token)
+        setCookie(event, "tokenExpiresAt", data.token_expires_at)
         setCookie(event, "user", JSON.stringify(data.user))
         let tem = getCookie(event, "user")
         console.log("auth_token cookie", getCookie(event, "auth_token"))
