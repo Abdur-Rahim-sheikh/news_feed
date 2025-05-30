@@ -17,7 +17,7 @@ const submit_data = async () => {
         }
     })
     console.log("login response: ", response)
-    if (response.status === 'success') {
+    if (response.success) {
         // Handle successful registration
         console.log("User is valid")
         router.push('/')

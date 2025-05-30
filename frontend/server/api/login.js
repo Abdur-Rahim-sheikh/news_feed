@@ -1,3 +1,6 @@
+import getBackend from "../utils/getBackend";
+
+
 export default defineEventHandler(async (event) => {
     let backend = getBackend(event)
     let data = await readBody(event)
@@ -11,7 +14,7 @@ export default defineEventHandler(async (event) => {
             }
         })
         data = response._data
-        console.log("response found", data.auth_token, data.user)
+        console.log("login response found", data.auth_token, data.user)
         setCookie(event, "auth_token", data.auth_token)
         setCookie(event, "tokenExpiresAt", data.token_expires_at)
         setCookie(event, "user", JSON.stringify(data.user))
@@ -19,13 +22,13 @@ export default defineEventHandler(async (event) => {
         console.log("auth_token cookie", getCookie(event, "auth_token"))
         console.log("user cookie", JSON.parse(tem))
         return {
-            status: "success",
+            success: true,
             statusMessage: "User is authenticated",
         }
     } catch (error) {
-        console.log(error)
+        console.error("login error: ", error)
         return {
-            status: error.status,
+            success: false,
             message: error.message
         }
     }
