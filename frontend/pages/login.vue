@@ -25,7 +25,7 @@ const submit_data = async () => {
     } else {
         // Handle error
         form_ok.value = false
-        console.error("authentication failed", response)
+        console.error("authentication failed", response, unifier.value, password.value)
     }
     console.log(response)
 }

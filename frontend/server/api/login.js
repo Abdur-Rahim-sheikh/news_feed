@@ -4,7 +4,7 @@ import getBackend from "../utils/getBackend";
 export default defineEventHandler(async (event) => {
     let backend = getBackend(event)
     let data = await readBody(event)
-    console.log("login", data)
+    console.log("login data:", data)
     try {
         let response = await backend.request('/v1/login', {
             method: "POST",
@@ -18,9 +18,6 @@ export default defineEventHandler(async (event) => {
         setCookie(event, "auth_token", data.auth_token)
         setCookie(event, "tokenExpiresAt", data.token_expires_at)
         setCookie(event, "user", JSON.stringify(data.user))
-        let tem = getCookie(event, "user")
-        console.log("auth_token cookie", getCookie(event, "auth_token"))
-        console.log("user cookie", JSON.parse(tem))
         return {
             success: true,
             statusMessage: "User is authenticated",

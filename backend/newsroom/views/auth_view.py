@@ -41,7 +41,7 @@ class AuthView(View):
             return JsonResponse(
                 data={"error": "User / password does not match"}, status=404
             )
-        expiresAt = datetime.now(tz=timezone.utc) + timedelta(minutes=60)
+        expiresAt = datetime.now(tz=timezone.utc) + timedelta(minutes=1)
         expires_at_ms = int(expiresAt.timestamp() * 1000)
         payload = {
             "id": user.id,
