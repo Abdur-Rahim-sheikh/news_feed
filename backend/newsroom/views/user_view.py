@@ -1,12 +1,13 @@
 import json
 import logging
 
+from django.db import IntegrityError
 from django.http import JsonResponse
 from django.views import View
-from django.db import IntegrityError
+
 from ..data import UserRepository
 from ..schemas import User
-from ..utils import UserForm
+from ..utils import UserForm, jwt_required
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -51,6 +52,30 @@ class UserView(View):
             return JsonResponse(data={"error": "username or email exists"}, status=409)
 
         return JsonResponse(data=self.format_user(user), status=200)
+
+    @jwt_required
+    def put(self, request):
+        user_id = request.user_id
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse(
+                data={"message": "invalid request payload", "error": e}, status=400
+            )
+        country_codes = data.get("country_codes", [])
+        source_ids = data.get("source_ids", [])
+        keywords = data.get("keywords", [])
+        logger.info(f"{country_codes=},{source_ids=}, {keywords=}")
+        success = self.__repository.update_preference(
+            user_id, country_codes, source_ids, keywords
+        )
+
+        if not success:
+            return JsonResponse(
+                data={"message": "user preference could not be updated"}, status=409
+            )
+
+        return JsonResponse(status=200, data={"message": "successfully updated"})
 
     def format_user(self, user: User):
         return {

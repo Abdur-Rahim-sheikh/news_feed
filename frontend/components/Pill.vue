@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps(["id", "name"])
 const emit = defineEmits(["remove"])
-console.log(props)
+
 const remove_pill = () => {
     emit('remove', props.id)
 }

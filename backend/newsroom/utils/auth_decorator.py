@@ -12,7 +12,7 @@ env.read_env()
 
 def jwt_required(view_func):
     @wraps(view_func)
-    def _wrap_view(request, *args, **kwargs):
+    def _wrap_view(_cls, request, *args, **kwargs):
         auth_header = request.headers.get("Authorization")
 
         if not auth_header or not auth_header.startswith("Bearer "):
@@ -28,6 +28,6 @@ def jwt_required(view_func):
         except (jwt.ExpiredSignatureError, jwt.DecodeError, User.DoesNotExist) as e:
             return JsonResponse({"error": f"Unauthorized decode {e}"}, status=401)
 
-        return view_func(request, *args, **kwargs)
+        return view_func(_cls, request, *args, **kwargs)
 
     return _wrap_view

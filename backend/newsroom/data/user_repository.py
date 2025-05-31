@@ -52,3 +52,17 @@ class UserRepository:
             keywords=user.keywords,
         )
         return user
+
+    def update_preference(
+        self, user_id: int, country_codes: list, source_ids: list, keywords: list
+    ) -> bool:
+        try:
+            user = userdb.objects.get(pk=user_id)
+        except userdb.DoesNotExist:
+            return False
+
+        user.country_codes = country_codes
+        user.source_ids = source_ids
+        user.keywords = keywords
+        user.save()
+        return True

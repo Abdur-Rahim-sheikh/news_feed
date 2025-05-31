@@ -39,15 +39,20 @@ const remove_keyword = (remove_id) => {
   keywords.value = keywords.value.filter(id => id != remove_id)
 }
 
-const update_user_choice = () => {
-  let response = $fetch('/api/user_update', {
+const update_user_choice = async () => {
+  const selected_country_codes = country_codes.value.map(entry => entry.id)
+  const selected_source_ids = source_ids.value.map(entry => entry.id)
+  let response = await $fetch('/api/update_user', {
     method: 'POST',
     body: {
-      country_codes,
-      source_ids,
-      keywords,
+      selected_country_codes,
+      selected_source_ids,
+      selected_keywords: keywords.value,
     }
   })
+  if (response.success) {
+    close_modal()
+  }
 }
 </script>
 
