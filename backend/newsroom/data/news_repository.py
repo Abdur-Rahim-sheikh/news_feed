@@ -18,7 +18,9 @@ class NewsRepository:
         to_date: datetime = None,
         keyword: str = None,
         source_id: str = None,
-    ) -> list[News]:
+        page_number: int = 0,
+        limit: int = 10,
+    ) -> tuple[int, list[News]]:
         news = User.objects.get(pk=user_id).news_set.all()
         if from_date:
             news = news.filter(publication_date__gte=from_date)
@@ -30,7 +32,9 @@ class NewsRepository:
             news = news.filter(
                 Q(title__icontains=keyword) | Q(summary__icontains=keyword)
             )
-
+        total_articles = news.count()
+        offset = page_number * limit
+        news = news[offset : offset + limit]
         articles = []
         for row in news:
             article = News(
@@ -44,4 +48,4 @@ class NewsRepository:
             )
             articles.append(article)
 
-        return articles
+        return total_articles, articles

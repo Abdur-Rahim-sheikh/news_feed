@@ -38,22 +38,32 @@ class NewsView(View):
         to_date = request.GET.get("toDate", None)
         keyword = request.GET.get("keyword", None)
         source_id = request.GET.get("sourceId", None)
-        logger.info(f"{from_date=}, {to_date}, {keyword=}, {source_id=}")
+        page_number = request.GET.get("page_number", 0)
+        limit = request.GET.get("limit", 10)
+        logger.info(f"{page_number=}, {limit=}")
 
         if from_date:
             from_date = self._get_date(from_date)
         if to_date:
             to_date = self._get_date(to_date)
 
-        articles = self.repository.get_filtered_news(
+        total_articles, articles = self.repository.get_filtered_news(
             user_id=request.user_id,
             from_date=from_date,
             to_date=to_date,
             keyword=keyword,
             source_id=source_id,
+            page_number=page_number,
+            limit=limit,
         )
 
-        return JsonResponse({"articles": self.__format_news(articles)}, status=200)
+        return JsonResponse(
+            {
+                "total_articles": total_articles,
+                "articles": self.__format_news(articles),
+            },
+            status=200,
+        )
 
     def __format_news(self, articles: list[News]):
         return [

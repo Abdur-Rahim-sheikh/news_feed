@@ -28,7 +28,7 @@ onMounted(() => {
 
 
     <ClientOnly>
-        <TopBar @queries="searchQuery" @click="() => { console.log('TopBar') }" />
+        <TopBar @queries="searchQuery" />
 
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 px-20 m-32">
