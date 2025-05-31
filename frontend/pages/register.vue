@@ -11,8 +11,14 @@ let username = ref("")
 let password = ref("")
 let confirm_passowrd = ref("")
 let form_ok = ref(true)
+let password_ok = ref(true)
 const submit_data = async () => {
     form_ok.value = true
+    password_ok.value = true
+    if (password.value.length < 5 || password.value !== confirm_passowrd.value) {
+        password_ok.value = false
+        return
+    }
     let response = await $fetch("/api/register", {
         method: "POST",
         body: {
@@ -69,6 +75,7 @@ const submit_data = async () => {
                 <input v-model.strip="password" placeholder="Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="password" id="password">
+                <span v-if="!password_ok" class="text-red-400 block">At least length 5</span>
             </div>
             <div class="mt-2">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">Confirm
@@ -76,6 +83,7 @@ const submit_data = async () => {
                 <input v-model.strip="confirm_passowrd" placeholder="Confirm Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="password" id="confirm-password">
+                <span v-if="!password_ok" class="block text-red-400">Both password should match</span>
             </div>
             <div class="flex items-center justify-end mt-4">
                 <button

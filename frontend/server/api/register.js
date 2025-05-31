@@ -1,7 +1,6 @@
 export default defineEventHandler(async (event) => {
     let backend = getBackend(event)
     let data = await readBody(event)
-    console.log("add-user", data)
     try {
         await backend.request('/v1/user', {
             method: "POST",

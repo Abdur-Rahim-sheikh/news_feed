@@ -1,5 +1,6 @@
 from django.db import IntegrityError
 
+from ..models import News as newsdb
 from ..models import User as userdb
 from ..schemas import User
 
@@ -43,6 +44,7 @@ class UserRepository:
         except IntegrityError as e:
             raise IntegrityError(f"user could not be created {e}")
         user = User(
+            id=user.id,
             username=user.username,
             email=user.email,
             first_name=user.first_name,
@@ -51,6 +53,13 @@ class UserRepository:
             source_ids=user.source_ids,
             keywords=user.keywords,
         )
+        articles = newsdb.objects.all()
+        for article in articles:
+            if article.country_code in user.country_codes:
+                article.users.add(user.id)
+            elif article.source_id in user.source_ids:
+                article.users.add(user.id)
+
         return user
 
     def update_preference(
@@ -65,4 +74,9 @@ class UserRepository:
         user.source_ids = source_ids
         user.keywords = keywords
         user.save()
+        user.news_set.clear()
+        articles = newsdb.objects.all()
+        for article in articles:
+            if article.country_code in country_codes or article.source_id in source_ids:
+                article.users.add(user)
         return True

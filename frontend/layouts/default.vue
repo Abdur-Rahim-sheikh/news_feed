@@ -1,7 +1,7 @@
 <script setup>
 const tokenExpiresAt = useCookie('tokenExpiresAt')
 const signOut = async () => {
-    useCookie('user').value = null
+    useCookie('user').value = ""
     let router = useRouter()
     router.push("/login")
 }
