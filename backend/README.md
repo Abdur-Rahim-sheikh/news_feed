@@ -2,14 +2,14 @@
 
 Build a Personalized News Aggregator Application that allows users to
 
-- ​[ ] Register and securely log in.​
-- ​[ ] Receive a tailored news feed based on individual preferences.​
-- ​[ ] Customize news settings: country, sources, and keywords.​
-- ​[ ] Browse, search, and filter their news feed.​
-  - [ ] Filter by source
-  - [ ] Filter by publication date
-  - [ ] keywords in title or summary
-- ​[ ] Access original articles via source links.​
+- ​[x] Register and securely log in.​
+- ​[x] Receive a tailored news feed based on individual preferences.​
+- ​[x] Customize news settings: country, sources, and keywords.​
+- ​[x] Browse, search, and filter their news feed.​
+  - [x] Filter by source
+  - [x] Filter by publication date
+  - [x] keyword search in title or summary
+- ​[x] Access original articles via source links.​
 
 ### News retrieval and Storage
 
