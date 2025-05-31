@@ -1,33 +1,29 @@
 <script setup>
-const emit = defineEmits(["queries"])
+const emit = defineEmits(["search", "sourceId", "startDate", "endDate", "keyword"])
 const available_sources = useState("sources")
-let sourceId = ref(null)
-let startDate = ref(null)
-let endDate = ref(null)
-let keyword = ref(null)
+let sourceId = ref("")
+let startDate = ref("")
+let endDate = ref("")
+let keyword = ref("")
 
 let getSelectedSourceId = (newSourceId) => {
     console.log("selected source", newSourceId)
     sourceId.value = newSourceId
 }
-
+watch(sourceId, (newSourceId) => {
+    emit("sourceId", newSourceId)
+})
+watch(startDate, (newStartDate) => {
+    emit("startDate", newStartDate)
+})
+watch(endDate, (newEndDate) => {
+    emit("endDate", newEndDate)
+})
+watch(keyword, (newKeyword) => {
+    emit("keyword", newKeyword)
+})
 let submitQuery = () => {
-    let fromDate = startDate.value || ""
-    let toDate = endDate.value || ""
-    let srcId = sourceId.value || ""
-    let kwrg = keyword.value || ""
-    console.log("TopBar", {
-        fromDate,
-        toDate,
-        sourceId: srcId,
-        keyword: kwrg,
-    })
-    emit("queries", {
-        fromDate,
-        toDate,
-        sourceId: srcId,
-        keyword: kwrg,
-    })
+    emit("search")
 }
 </script>
 

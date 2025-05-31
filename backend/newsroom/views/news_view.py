@@ -27,19 +27,14 @@ class NewsView(View):
     @jwt_required
     def get(self, request: HttpRequest):
         logger.info(f"{request=}")
-        # if not request.user.is_authenticated:
-        #     return JsonResponse({"error": "User not authenticated"}, status=401)
 
-        # username = request.user.username
-        # email = request.user.email
-        # first_name = request.user.first_name
-        logger.info(request.GET)
+        logger.info(f"{request.GET=}")
         from_date = request.GET.get("fromDate", None)
         to_date = request.GET.get("toDate", None)
         keyword = request.GET.get("keyword", None)
         source_id = request.GET.get("sourceId", None)
-        page_number = request.GET.get("page_number", 0)
-        limit = request.GET.get("limit", 10)
+        page_number = int(request.GET.get("page_number", 0))
+        limit = int(request.GET.get("limit", 10))
         logger.info(f"{page_number=}, {limit=}")
 
         if from_date:
@@ -58,7 +53,7 @@ class NewsView(View):
         )
 
         return JsonResponse(
-            {
+            data={
                 "total_articles": total_articles,
                 "articles": self.__format_news(articles),
             },
