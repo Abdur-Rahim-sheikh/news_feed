@@ -26,3 +26,23 @@ cd news_feed
    ```
         make run
    ```
+
+### .env setup
+
+#### example frontend env setup
+
+SERVER_URL=http://backend:8000
+DEBUG=true
+
+#### example backend env setup
+
+POSTGRES_PASSWORD=pass123$
+POSTGRES_USER=postgres
+POSTGRES_HOST=db
+
+NEWS_API=your newsapi.org api
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+ALLOWED_HOST=http://backend:8000,http://localhost:8000
+
+JWT\*SECRET=secret_news
+JWT_ALGORITHM=HS256
