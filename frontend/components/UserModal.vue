@@ -72,7 +72,9 @@ const update_user_choice = async () => {
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 class="text-base font-semibold text-gray-900" id="modal-title">Hello, {{ props.user.first_name }} {{
                   props.user.last_name }}</h3>
-
+              </div>
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h5 class="text-base text-gray-800">You can change your preference below</h5>
               </div>
               <div class="mt-2">
                 <label class="font-semibold">Choose countries</label>
