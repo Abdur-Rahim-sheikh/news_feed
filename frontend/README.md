@@ -1,16 +1,15 @@
 ## Frontend requirement
 
-- [ ] Register
-- [ ] Securely Login
-- [ ] Tailored news feed based on individual prefenrence
-- [ ] customize news setting
-  - [ ] country
-  - [ ] Sources
-  - [ ] keywords
-- [ ] Search through newsfeed
-- [ ] Filter through newsfeed
-- [ ] Access original Article via source links
-- [ ] Article should display
+- [x] Register
+- [x] Securely Login
+- [x] Tailored news feed based on individual prefenrence
+- [x] customize news setting
+  - [x] country
+  - [x] Sources
+  - [x] keywords
+- [x] Search through newsfeed
+- [x] Access original Article via source links
+- [x] Article should display
   - Title
   - Summary
   - Source name
