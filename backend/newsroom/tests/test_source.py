@@ -1,4 +1,4 @@
-from ..models import Source
+from newsroom.models import Source
 from django.test import TestCase
 
 
