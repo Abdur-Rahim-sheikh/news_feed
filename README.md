@@ -36,13 +36,13 @@ DEBUG=true
 
 #### example backend env setup
 
-POSTGRES_PASSWORD=pass123$
-POSTGRES_USER=postgres
-POSTGRES_HOST=db
+1. POSTGRES_PASSWORD=pass123$
+2. POSTGRES_USER=postgres
+3. POSTGRES_HOST=db
 
-NEWS_API=your newsapi.org api
-CORS_ALLOWED_ORIGINS=http://localhost:3000
-ALLOWED_HOST=http://backend:8000,http://localhost:8000
+4. NEWS_API=your newsapi.org api
+5. CORS_ALLOWED_ORIGINS=http://localhost:3000
+6. ALLOWED_HOST=http://backend:8000,http://localhost:8000
 
-JWT\*SECRET=secret_news
-JWT_ALGORITHM=HS256
+7. JWT_SECRET=secret_news
+8. JWT_ALGORITHM=HS256
